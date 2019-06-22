@@ -5,7 +5,8 @@ var axios = require("axios");
 var cheerio = require("cheerio");
 var db = require("./models");
 
-var PORT = 3000;
+var PORT = process.env.PORT || 3000;
+
 
 var app = express();
 
@@ -27,7 +28,7 @@ mongoose.connect(MONGODB_URI);
 
 // Routes
 
-// A GET route for scraping the echoJS website
+// A GET route for scraping the pinchofyum website
 app.get("/scrape", function (req, res) {
   // First, we grab the body of the html with axios
   axios.get("https://www.pinchofyum.com/").then(function (response) {
@@ -41,7 +42,7 @@ app.get("/scrape", function (req, res) {
       var result = {};
       
       result.title = ($(this).children("a").text());
-      result.title = ($(this).children("a").text());
+      result.link = ($(this).children("a").attr("href"));
 
 
       // Create a new Article using the `result` object built from scraping
